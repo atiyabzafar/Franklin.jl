@@ -166,7 +166,7 @@ function lx_figalt(lxc::LxCom, _)
     # now try in the output dir just in case (provided we weren't already
     # looking there)
     p1, p2 = splitdir(fdir)
-    @show p1,p2
+    #@show p1,p2
     if splitdir(p1)[2] != "output"
         for ext ∈ candext
             #candpath = joinpath(p1, "output", p2 * ext)
