@@ -160,16 +160,20 @@ function lx_figalt(lxc::LxCom, _)
                      (".png", ".jpeg", ".jpg", ".svg", ".gif", ".json"), (fext,))
     for ext ∈ candext
         candpath = fdir * ext
-        syspath  = joinpath(PATHS[:site], split(candpath, PATH_SEP)...)
+        syspath  = joinpath(PATHS[:site], split(candpath, "/")...)
         isfile(syspath) && return ext == ".json" ? html_plotly(candpath) : html_img(candpath, alt)
     end
     # now try in the output dir just in case (provided we weren't already
     # looking there)
     p1, p2 = splitdir(fdir)
+    @show p1,p2
     if splitdir(p1)[2] != "output"
         for ext ∈ candext
-            candpath = joinpath(p1, "output", p2 * ext)
-            syspath  = joinpath(PATHS[:site], split(candpath, PATH_SEP)...)
+            #candpath = joinpath(p1, "output", p2 * ext)
+	       candpath= p1* "/output/" * p2*ext
+            # now candpath is in unix-style, so it should be split according to "/"
+           syspath  = joinpath(PATHS[:site], split(candpath, "/")...)
+            # with join path, it should now be correct irrelevant of the platform
             isfile(syspath) && return ext == ".json" ? html_plotly(candpath) : html_img(candpath, alt)
         end
     end
